@@ -1,5 +1,16 @@
+import { useState, useEffect } from 'react';
+import { Trash2, Edit, Save, X, Check, AlertCircle, MessageSquare } from 'lucide-react';
 
-import { useState, useEffect } from 'react'; import { Trash2, Edit, Save, X, Check, AlertCircle, MessageSquare } from 'lucide-react'; // Mock database - in a real app, this would be replaced with API calls const initialFeedback = [ { id: 1, name: 'John Doe', email: 'john@example.com', type:
+// Mock database - in a real app, this would be replaced with API calls
+const initialFeedback = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', type: 'GENERAL_FEEDBACK' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', type: 'PRODUCT_FEEDBACK' },
+  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', type: 'CUSTOMER_SERVICE' },
+  { id: 4, name: 'Alice Brown', email: 'alice@example.com', type: 'WEBSITE_EXPERIENCE' },
+  { id: 5, name: 'Charlie Davis', email: 'charlie@example.com', type: 'SUGGESTION' },
+  { id: 6, name: 'Eve Evans', email: 'eve@example.com', type: 'COMPLAINT' }
+];
+
 export default function FeedbackCRUD() {
   const [feedback, setFeedback] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -235,30 +246,30 @@ export default function FeedbackCRUD() {
   const getTypeColor = (type) => {
     switch (type) {
       case 'PRODUCT_FEEDBACK':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-white';
       case 'COMPLAINT':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-500 text-white dark:bg-red-600 dark:text-white';
       case 'SUGGESTION':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-white';
       case 'CUSTOMER_SERVICE':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-white';
       case 'WEBSITE_EXPERIENCE':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-white';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-white';
     }
   };
 
   // UI Components
   return (
-    <div className="flex flex-col w-full max-w-6xl mx-auto p-4 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Feedback Management System</h1>
+    <div className="flex flex-col w-full max-w-6xl mx-auto p-4 bg-gray-50 dark:bg-gray-900 min-h-screen">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">Feedback Management System</h1>
       
       {/* Controls */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <button 
           onClick={handleOpenForm}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded flex items-center"
+          className=" hover:bg-blue-700 dark:bg-gradient-to-r from-teal-400 to-blue-500 dark:hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded flex items-center"
         >
           <MessageSquare className="w-5 h-5 mr-2" />
           New Feedback
@@ -285,149 +296,157 @@ export default function FeedbackCRUD() {
       
       {/* Feedback Form */}
       {isFormOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-gray-800">
-                {isEditMode ? 'Edit Feedback' : 'Add New Feedback'}
-              </h2>
-              <button 
-                onClick={() => setIsFormOpen(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <X className="w-5 h-5" />
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-[95%] sm:w-[85%] md:w-[70%] lg:w-[50%] max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
+                  {isEditMode ? 'Edit Feedback' : 'Add New Feedback'}
+                </h2>
+                <button 
+                  onClick={() => setIsFormOpen(false)}
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
             
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label htmlFor="fullName" className="block text-gray-700 mb-1">Full Name</label>
-                <input
-                  type="text"
-                  id="fullName"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded py-2 px-3"
-                  required
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label htmlFor="email" className="block text-gray-700 mb-1">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded py-2 px-3"
-                  required
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label htmlFor="phoneNumber" className="block text-gray-700 mb-1">Phone Number (Optional)</label>
-                <input
-                  type="text"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded py-2 px-3"
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label htmlFor="feedbackType" className="block text-gray-700 mb-1">Feedback Type</label>
-                <select
-                  id="feedbackType"
-                  name="feedbackType"
-                  value={formData.feedbackType}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded py-2 px-3"
-                >
-                  <option value="GENERAL_FEEDBACK">General Feedback</option>
-                  <option value="PRODUCT_FEEDBACK">Product Feedback</option>
-                  <option value="CUSTOMER_SERVICE">Customer Service</option>
-                  <option value="WEBSITE_EXPERIENCE">Website Experience</option>
-                  <option value="SUGGESTION">Suggestion</option>
-                  <option value="COMPLAINT">Complaint</option>
-                </select>
-              </div>
-              
-              <div className="mb-4">
-                <label htmlFor="rating" className="block text-gray-700 mb-1">Rating (1-5)</label>
-                <input
-                  type="number"
-                  id="rating"
-                  name="rating"
-                  min="1"
-                  max="5"
-                  value={formData.rating}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded py-2 px-3"
-                  required
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label htmlFor="feedbackDetails" className="block text-gray-700 mb-1">Feedback Details</label>
-                <textarea
-                  id="feedbackDetails"
-                  name="feedbackDetails"
-                  value={formData.feedbackDetails}
-                  onChange={handleInputChange}
-                  rows="4"
-                  className="w-full border border-gray-300 rounded py-2 px-3"
-                  required
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label htmlFor="improvementSuggestions" className="block text-gray-700 mb-1">Improvement Suggestions (Optional)</label>
-                <textarea
-                  id="improvementSuggestions"
-                  name="improvementSuggestions"
-                  value={formData.improvementSuggestions}
-                  onChange={handleInputChange}
-                  rows="3"
-                  className="w-full border border-gray-300 rounded py-2 px-3"
-                />
-              </div>
-              
-              <div className="mb-4">
-                <label htmlFor="wouldRecommend" className="block text-gray-700 mb-1">Would Recommend?</label>
-                <select
-                  id="wouldRecommend"
-                  name="wouldRecommend"
-                  value={formData.wouldRecommend}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded py-2 px-3"
-                >
-                  <option value="YES">Yes</option>
-                  <option value="NO">No</option>
-                  <option value="MAYBE">Maybe</option>
-                </select>
-              </div>
-              
-              <div className="flex justify-end gap-2 mt-6">
-                <button
-                  type="button"
-                  onClick={() => setIsFormOpen(false)}
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium py-2 px-4 rounded"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded flex items-center"
-                >
-                  <Save className="w-5 h-5 mr-1" />
-                  {isEditMode ? 'Update' : 'Submit'}
-                </button>
-              </div>
-            </form>
+            <div className="p-4 sm:p-6">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
+                    <input
+                      type="text"
+                      id="fullName"
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number (Optional)</label>
+                  <input
+                    type="text"
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="feedbackType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Feedback Type</label>
+                    <select
+                      id="feedbackType"
+                      name="feedbackType"
+                      value={formData.feedbackType}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 focus:ring-2 dark:focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    >
+                      <option value="GENERAL_FEEDBACK">General Feedback</option>
+                      <option value="PRODUCT_FEEDBACK">Product Feedback</option>
+                      <option value="CUSTOMER_SERVICE">Customer Service</option>
+                      <option value="WEBSITE_EXPERIENCE">Website Experience</option>
+                      <option value="SUGGESTION">Suggestion</option>
+                      <option value="COMPLAINT">Complaint</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="rating" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Rating (1-5)</label>
+                    <input
+                      type="number"
+                      id="rating"
+                      name="rating"
+                      min="1"
+                      max="5"
+                      value={formData.rating}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="feedbackDetails" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Feedback Details</label>
+                  <textarea
+                    id="feedbackDetails"
+                    name="feedbackDetails"
+                    value={formData.feedbackDetails}
+                    onChange={handleInputChange}
+                    rows="4"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="improvementSuggestions" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Improvement Suggestions (Optional)</label>
+                  <textarea
+                    id="improvementSuggestions"
+                    name="improvementSuggestions"
+                    value={formData.improvementSuggestions}
+                    onChange={handleInputChange}
+                    rows="3"
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="wouldRecommend" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Would Recommend?</label>
+                  <select
+                    id="wouldRecommend"
+                    name="wouldRecommend"
+                    value={formData.wouldRecommend}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="YES">Yes</option>
+                    <option value="NO">No</option>
+                    <option value="MAYBE">Maybe</option>
+                  </select>
+                </div>
+
+                <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <button
+                    type="button"
+                    onClick={() => setIsFormOpen(false)}
+                    className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex items-center"
+                  >
+                    <Save className="w-4 h-4 mr-2" />
+                    {isEditMode ? 'Update' : 'Submit'}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
@@ -435,77 +454,77 @@ export default function FeedbackCRUD() {
       {/* Loading indicator */}
       {loading && (
         <div className="flex justify-center my-8">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 dark:border-blue-400"></div>
         </div>
       )}
       
       {/* Error message */}
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-200 px-4 py-3 rounded mb-4">
           <p>{error}</p>
         </div>
       )}
       
       {/* Feedback List */}
       {!loading && !error && (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
           {getFilteredFeedback().length > 0 ? (
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-100">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead className="bg-gray-100 dark:bg-gray-700">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Would Recommend</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">ID</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Name</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Type</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Rating</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Details</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Would Recommend</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date</th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   {getFilteredFeedback().map((item) => (
-                    <tr key={item._id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{item._id.substring(0, 8)}...</td>
+                    <tr key={item._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{item._id.substring(0, 8)}...</td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{item.fullName}</div>
-                        <div className="text-sm text-gray-500">{item.email}</div>
+                        <div className="text-sm font-medium text-gray-900 dark:text-white">{item.fullName}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">{item.email}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getTypeColor(item.feedbackType)}`}>
+                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getTypeColor(item.feedbackType)} dark:bg-opacity-20`}>
                           {item.feedbackType.replace(/_/g, ' ')}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                         {item.rating} / 5
                       </td>
                       <td className="px-6 py-4">
-                        <div className="text-sm text-gray-900 max-w-xs truncate">{item.feedbackDetails}</div>
+                        <div className="text-sm text-gray-900 dark:text-white max-w-xs truncate">{item.feedbackDetails}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                          ${item.wouldRecommend === 'YES' ? 'bg-green-100 text-green-800' : 
-                            item.wouldRecommend === 'NO' ? 'bg-red-100 text-red-800' : 
-                            'bg-yellow-100 text-yellow-800'}`}>
+                          ${item.wouldRecommend === 'YES' ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 
+                            item.wouldRecommend === 'NO' ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200' : 
+                            'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'}`}>
                           {item.wouldRecommend}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                         {formatDate(item.createdAt)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         {confirmDelete === item._id ? (
                           <div className="flex justify-end items-center space-x-2">
-                            <span className="text-xs text-red-600">Confirm?</span>
+                            <span className="text-xs text-red-600 dark:text-red-400">Confirm?</span>
                             <button 
                               onClick={() => deleteFeedback(item._id)}
-                              className="text-green-600 hover:text-green-900">
+                              className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300">
                               <Check className="w-4 h-4" />
                             </button>
                             <button 
                               onClick={() => setConfirmDelete(null)}
-                              className="text-gray-600 hover:text-gray-900">
+                              className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">
                               <X className="w-4 h-4" />
                             </button>
                           </div>
@@ -513,12 +532,12 @@ export default function FeedbackCRUD() {
                           <div className="flex justify-end items-center space-x-3">
                             <button 
                               onClick={() => handleEdit(item._id)}
-                              className="text-blue-600 hover:text-blue-900">
+                              className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
                               <Edit className="w-5 h-5" />
                             </button>
                             <button 
                               onClick={() => setConfirmDelete(item._id)}
-                              className="text-red-600 hover:text-red-900">
+                              className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
                               <Trash2 className="w-5 h-5" />
                             </button>
                           </div>
@@ -531,8 +550,8 @@ export default function FeedbackCRUD() {
             </div>
           ) : (
             <div className="py-8 text-center flex flex-col items-center">
-              <AlertCircle className="w-12 h-12 text-gray-400 mb-3" />
-              <p className="text-gray-500 text-lg">No feedback found. Create your first feedback entry!</p>
+              <AlertCircle className="w-12 h-12 text-gray-400 dark:text-gray-500 mb-3" />
+              <p className="text-gray-500 dark:text-gray-400 text-lg">No feedback found. Create your first feedback entry!</p>
             </div>
           )}
         </div>
@@ -540,21 +559,21 @@ export default function FeedbackCRUD() {
       
       {/* Statistics */}
       <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-medium text-gray-700 mb-2">Total Feedback</h3>
-          <p className="text-3xl font-bold text-blue-600">{stats.totalFeedbacks}</p>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Total Feedback</h3>
+          <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">{stats.totalFeedbacks}</p>
         </div>
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-medium text-gray-700 mb-2">Average Rating</h3>
-          <p className="text-3xl font-bold text-purple-600">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Average Rating</h3>
+          <p className="text-3xl font-bold text-purple-600 dark:text-purple-400">
             {feedback.length > 0 
               ? (feedback.reduce((sum, item) => sum + item.rating, 0) / feedback.length).toFixed(1)
               : 'N/A'}
           </p>
         </div>
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-medium text-gray-700 mb-2">Would Recommend</h3>
-          <p className="text-3xl font-bold text-green-600">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Would Recommend</h3>
+          <p className="text-3xl font-bold text-green-600 dark:text-green-400">
             {feedback.length > 0
               ? `${(feedback.filter(item => item.wouldRecommend === 'YES').length / feedback.length * 100).toFixed(0)}%`
               : 'N/A'}

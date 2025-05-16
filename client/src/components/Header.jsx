@@ -17,22 +17,12 @@ export default function Header() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(search);
     const searchTermFromUrl = urlParams.get('searchTerm');
     if (searchTermFromUrl) setSearchTerm(searchTermFromUrl);
   }, [search]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleSignout = async () => {
     try {
@@ -75,25 +65,21 @@ export default function Header() {
       }`;
 
   return (
-    <div className={`sticky top-0 z-40 transition-all duration-300 ${
-      scrolled 
-        ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-md' 
-        : 'bg-white dark:bg-gray-900'
-      } border-b border-gray-200 dark:border-gray-800`}>
-      <Navbar fluid className="px-4 py-3 mx-auto max-w-7xl">
+    <div className="sticky top-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+      <Navbar fluid className="px-2 sm:px-4 py-2 sm:py-3 mx-auto max-w-7xl">
         <div className="flex items-center md:gap-8">
           <button 
             onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
-            className="md:hidden text-gray-700 dark:text-gray-300 hover:text-blue-500 hover:rotate-180 transition-all duration-300 mr-3"
+            className="md:hidden text-gray-700 dark:text-gray-300 hover:text-blue-500 hover:rotate-180 transition-all duration-300 mr-2 sm:mr-3"
             aria-label="Toggle menu"
           >
-            {isSidebarOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+            {isSidebarOpen ? <FaTimes size={18} className="sm:w-5 sm:h-5" /> : <FaBars size={18} className="sm:w-5 sm:h-5" />}
           </button>
           <Link to="/" className="flex items-center">
             <img 
               src={`src/3.png`} 
               alt="Logo" 
-              className="h-8 sm:h-10 transform hover:scale-105 transition-transform duration-300" 
+              className="h-7 sm:h-8 md:h-10 transform hover:scale-105 transition-transform duration-300" 
             />
           </Link>
         </div>
@@ -162,20 +148,20 @@ export default function Header() {
                 placeholder="Search..." 
                 value={searchTerm} 
                 onChange={(e) => setSearchTerm(e.target.value)} 
-                className="w-64 pl-10 rounded-xl bg-gray-50 dark:bg-gray-800 border-0 focus:ring-blue-500 transition-all duration-300 group-hover:shadow-md"
+                className="w-48 lg:w-64 pl-10 rounded-xl bg-gray-50 dark:bg-gray-800 border-0 focus:ring-blue-500 transition-all duration-300 group-hover:shadow-md"
               />
               <AiOutlineSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
             </div>
           </form>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Button 
-              className="w-10 h-10 hidden sm:inline-flex rounded-full shadow-sm hover:shadow-md transition-all duration-300" 
+              className="w-8 h-8 sm:w-10 sm:h-10 hidden sm:inline-flex rounded-full shadow-sm hover:shadow-md transition-all duration-300" 
               color={theme === 'light' ? 'gray' : 'dark'}
               pill 
               onClick={() => dispatch(toggleTheme())}
             >
-              {theme === 'light' ? <FaMoon className="text-indigo-600" /> : <FaSun className="text-amber-400" />}
+              {theme === 'light' ? <FaMoon className="text-indigo-600 w-4 h-4 sm:w-5 sm:h-5" /> : <FaSun className="text-amber-400 w-4 h-4 sm:w-5 sm:h-5" />}
             </Button>
 
             {currentUser ? (
@@ -253,18 +239,18 @@ export default function Header() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 250 }}
-              className="fixed inset-y-0 left-0 w-72 bg-white dark:bg-gray-800 shadow-xl md:hidden z-50 overflow-y-auto rounded-r-xl"
+              className="fixed inset-y-0 left-0 w-[280px] sm:w-72 bg-white dark:bg-gray-800 shadow-xl md:hidden z-50 overflow-y-auto rounded-r-xl"
             >
-              <div className="flex flex-col p-5 h-full">
-                <div className="flex justify-between items-center mb-8">
+              <div className="flex flex-col p-4 sm:p-5 h-full">
+                <div className="flex justify-between items-center mb-6 sm:mb-8">
                   <Link to="/" onClick={() => setIsSidebarOpen(false)}>
-                    <img src={`src/${theme === 'light' ? '3' : '3'}.png`} alt="Logo" className="h-8" />
+                    <img src={`src/${theme === 'light' ? '3' : '3'}.png`} alt="Logo" className="h-7 sm:h-8" />
                   </Link>
                   <button 
                     onClick={() => setIsSidebarOpen(false)} 
-                    className="text-gray-700 dark:text-gray-300 hover:text-blue-500 hover:rotate-90 transition-all duration-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
+                    className="text-gray-700 dark:text-gray-300 hover:text-blue-500 hover:rotate-90 transition-all duration-300 p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
                   >
-                    <FaTimes size={18} />
+                    <FaTimes size={16} className="sm:w-[18px] sm:h-[18px]" />
                   </button>
                 </div>
 
