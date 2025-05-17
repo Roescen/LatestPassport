@@ -8,7 +8,7 @@ import DashComments from '../components/DashComments';
 import DashboardComp from '../components/DashboardComp';
 import DashCategories from '../components/DashCategories'; // Updated import
 import UpdateCategory from './UpdateCategory';
-import CreatePost from './CreatePost';
+import CreatePost from '../components/CreatePost';
 import UpdatePost from './UpdatePost';
 import LoadingSpinner from '../components/LoadingSpinner';
 import UserApproval from '../components/UserApproval';
@@ -71,6 +71,7 @@ export default function Dashboard() {
         {tab === 'updatecategory' && <UpdateCategory categoryId={categoryId} />}
         {tab === 'userapproval' && <UserApproval />}
         {tab === 'feedback' && <DashFeedback />}
+        {tqb === 'createpost' && <CreatePost />}
 
       </div>
     </div>

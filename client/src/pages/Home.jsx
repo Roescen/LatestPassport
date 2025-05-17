@@ -5,42 +5,6 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { Link } from 'react-router-dom';
 import PostCard from '../components/PostCard';
 
-const CallToAction = () => (
-  <div className="flex flex-col lg:flex-row items-center justify-between gap-8 p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 shadow-lg">
-    <div className="flex-1 space-y-4">
-      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-        <Info size={16} className="mr-1" /> Important
-      </span>
-      <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
-        CivicView <span className="bg-gradient-to-r from-teal-400 to-blue-500 dark:from-teal-500 dark:to-blue-600 text-transparent bg-clip-text">Portal</span>
-      </h1>
-      <p className="text-lg text-gray-600 dark:text-gray-300 max-w-xl">
-        CivicView - Your Digital Gateway to Official Website Services.Real-time information access and efficient guidelines
-      </p>
-      <div className="flex flex-wrap gap-4 pt-2">
-        <Link 
-          to="/search" 
-          className="bg-gradient-to-r from-teal-400 to-blue-500 dark:from-teal-500 dark:to-blue-600 text-white font-medium px-5 py-2 rounded-lg transition-all duration-300 hover:from-teal-500 hover:to-blue-600 hover:shadow-lg"
-        >
-          See More<ArrowRight size={18} />
-        </Link>
-      </div>
-    </div>
-    <div className="flex-1 flex justify-center items-center">
-      <div className="relative w-full max-w-md aspect-square">
-        <div className="absolute inset-0 bg-blue-500 dark:bg-blue-600 rounded-3xl rotate-6 opacity-20"></div>
-        <div className="absolute inset-0 bg-indigo-500 dark:bg-indigo-600 rounded-3xl -rotate-6 opacity-20"></div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <img 
-            src="src/3.png" 
-            alt="CivicView Application" 
-            className="w-4/5 h-4/5 object-cover rounded-2xl shadow-xl"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-);
 
 
 
@@ -129,25 +93,13 @@ export default function Home() {
           <div className="absolute bottom-1/4 right-1/3 w-64 h-64 bg-indigo-300 dark:bg-indigo-600 rounded-full mix-blend-multiply dark:mix-blend-overlay filter blur-3xl opacity-20 animate-blob animation-delay-4000" />
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 py-20 sm:px-6 sm:py-28 lg:py-32">
-          <CallToAction />
-        </div>
+      
       </section>
 
       {/* Recent Posts Section with modern carousel */}
       <section className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:py-24">
         <div className="flex flex-col gap-16">
-          <div className="text-center space-y-6">
-            <div className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium text-sm mb-4">
-              <Info size={16} /> Essential Guidelines
-            </div>
-            <h2 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
-              CivicView <span className="bg-gradient-to-r from-teal-400 to-blue-500 dark:from-teal-500 dark:to-blue-600 text-transparent bg-clip-text">Guidelines</span>
-            </h2>
-            <p className="max-w-2xl mx-auto text-xl text-gray-600 dark:text-gray-300">
-              Everything you need to know to complete your application successfully
-            </p>
-          </div>
+          
 
           {isLoading ? (
             <div className="flex justify-center items-center py-16">
